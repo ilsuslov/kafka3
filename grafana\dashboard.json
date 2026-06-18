@@ -1,0 +1,33 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Debezium CDC Monitor",
+    "tags": ["cdc", "kafka"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Connector Status",
+        "type": "stat",
+        "targets": [{"expr": "kafka_connect_worker_connector_count"}],
+        "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"color": "green", "value": 1}]}}},
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Events Processed (rate)",
+        "type": "timeseries",
+        "targets": [{"expr": "rate(debezium_connector_TotalNumberOfEventsSeen[1m])", "legendFormat": "events/sec"}],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4}
+      },
+      {
+        "id": 3,
+        "title": "Lag Behind Source (ms)",
+        "type": "timeseries",
+        "targets": [{"expr": "debezium_connector_MilliSecondsBehindSource", "legendFormat": "lag ms"}],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4}
+      }
+    ]
+  }
+}
