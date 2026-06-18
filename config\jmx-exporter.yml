@@ -1,0 +1,16 @@
+startDelaySeconds: 30
+ssl: false
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+whitelistObjectNames:
+  - "kafka.connect:*"
+  - "debezium.postgresql:*"
+rules:
+  - pattern: "kafka.connect<type=connect-worker-metrics>([^:]+):"
+    name: kafka_connect_worker_$1
+  - pattern: "debezium.postgresql<type=connector-metrics, context=([^,]+), server=([^,]+)>([^:]+):"
+    name: debezium_connector_$4
+    type: GAUGE
+    labels:
+      context: $1
+      server: $2
